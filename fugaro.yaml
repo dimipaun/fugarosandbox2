@@ -1,0 +1,14 @@
+version: 1
+project: fugaro
+gcp_project: fugaro-dev
+git: { provider: github, base_branch: main }
+agent:
+  review_rounds: 1
+  max_budget_usd: 4
+workflows:
+  web:
+    commands: { build: "node --check test.js", test: "node test.js" }
+    image_name: sandbox-web-gh
+    resources: { cpu: 1, memory: 2Gi }
+    rebuild: { check: off }
+    timeouts: { total: 20m, stage: 10m, verify: 5m, finalize_reserve: 3m }
